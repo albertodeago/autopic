@@ -1,7 +1,7 @@
 # AutoPic
 
 A web application made with Vite + Vue3 + Tailwind 2 + TensorflowJs  
-This is a toy project.
+This is a WIP toy project.
 
 You can use it [here](TODO)
 
