@@ -3,6 +3,7 @@ import './tailwind.css'
 import App from './App.vue'
 import { routes } from './router/routes.js'
 import { createRouter, createWebHistory } from 'vue-router'
+import { MotionPlugin } from '@vueuse/motion'
 import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
@@ -34,5 +35,6 @@ if (import.meta.hot) {
 }
 
 app.use(router)
+app.use(MotionPlugin)
 
 app.mount('#app')
