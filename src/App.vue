@@ -1,9 +1,9 @@
 <template>
     <main class="bg-gray-200">
         <router-view v-slot="{ Component }">
-            <transition name="fade">
+            <!-- <transition name="fade"> -->
                 <component :is="Component" />
-            </transition>
+            <!-- </transition> -->
         </router-view>
     </main>
 </template>
@@ -24,7 +24,7 @@ export default defineComponent({
 .fade-enter-active,
 .fade-leave-active {
     opacity: 1;
-    transition: opacity .3s ease;
+    transition: opacity .2s ease;
 }
 .fade-enter-from,
 .fade-leave-to {

@@ -1,131 +1,199 @@
 <template>
-    <div class="p-4 text-center min-h-screen">
-
-        <span class="block text-xl font-semibold pb-4">Configure AutoPic</span>
-        
-        <!-- TARGET -->
-        <div class="text-md text-gray-900 mt-4 mb-2">
-            Select the subject you want to take <br>photos of
-        </div>
-        <transition-group>
-            <div class="target text-md text-gray-900 bg-gray-400"
-                :class="{
-                    'opened': isSelectingTarget
-                }"
-                @click="() => { if (!isSelectingTarget) isSelectingTarget = true }"
-                key="target"
-            >
-                <div class="font-bold text-2xl  mt-10 transition-all"
-                    @click.stop="isSelectingTarget = !isSelectingTarget"
-                >
-                    {{ appState.target }}
+    <div class="grid-container p-4 min-h-screen">
+        <!-- <div class="option option-1 bg-blue-300 flex items-center justify-center rounded-2xl w-full h-full relative"
+            :class="{'opacity-5': (selectedOption === 'one')}"
+            data-flip-key="one"
+            @click="selectOption('one')"
+        >
+            <div class="shadow-option absolute inset-0" data-flip-key="shadow-one"
+                :class="{'invisible': selectedOption === 'shadow-one'}"
+            ></div>
+            <transition name="fade">
+                <div class="w-1/2" v-if="showTargetContent">
+                    <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
                 </div>
-
-                <transition name="fade" mode="out-in" :duration="150">
-                    <div v-show="isSelectingTarget"
-                        class="target-choices my-2 overflow-y-auto">
-                        <div class=""
-                            v-for="object in cocoSsdObjectList"
-                            :key="object"
-                            @click.stop="onTargetClick(object)"
-                        >
-                            <span :class="{'font-bold': object === appState.target}">
-                                {{ object }}
-                            </span>
-                        </div>
+            </transition>
+        </div> -->
+        <!-- <div class="option bg-yellow-300 flex items-center justify-center rounded-2xl w-full h-full relative"
+            :class="{'opacity-5': (selectedOption === 'two')}"
+            data-flip-key="two"
+            @click="selectOption('two')"
+        >
+            <div class="shadow-option absolute inset-0" data-flip-key="shadow-two"
+                :class="{'hiddn': selectedOption === 'two'}"
+            ></div>
+            Two
+        </div> -->
+        <!-- <div class="bg-green-300 flex items-center justify-center rounded-2xl w-full h-full relative"
+            :class="{'opacity-5': (selectedOption === 'three')}"
+            data-flip-key="three"
+            @click="selectOption('three')"
+        >
+            <div class="shadow-option absolute inset-0" data-flip-key="shadow-three"
+                :class="{'hiddn': selectedOption === 'three'}"
+            ></div>
+            Three
+        </div> -->
+        <div class="option w-full h-full relative"
+            @click="selectOption('one')"
+        >
+            <div class="option bg-blue-300 flex items-center rounded-md justify-center w-full h-full relative"
+                data-flip-key="one"
+            >
+                <transition name="fade" mode="out-in">
+                    <div class="w-1/2" v-if="showTargetContent">
+                        <svg class="w-full" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                     </div>
                 </transition>
-
             </div>
-        </transition-group>        
-
-        <!-- NORMAL TIME -->
-        <div class="text-md text-gray-900 mt-8 mb-2">
-            Select the amount of seconds between photos when the subject is <span class="font-bold">not</span> seen
+            <div class="shadow-option absolute inset-0"
+                :class="{
+                    'bg-gray-200': selectedOption === 'one' && selectedFlipKey === 'one'
+                }" 
+                data-flip-key="shadow-one"
+            >
+            </div>
         </div>
-        <div class="font-bold text-2xl mx-auto w-16 h-16 
-            border-2 border-gray-400 rounded-full
-            flex items-center justify-center"
+        <div class="option w-full h-full relative"
+            @click="selectOption('two')"
         >
-            {{ appState.checkInterval }}
+            <div class="option bg-yellow-300 flex items-center justify-center rounded-md w-full h-full relative"
+                data-flip-key="two"
+            >
+                <transition name="fade" mode="out-in">
+                    <div class="w-1/2" v-if="showTargetContent">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </transition>
+            </div>
+            <div class="shadow-option absolute inset-0"
+                :class="{
+                    'bg-gray-200': selectedOption === 'two' && selectedFlipKey === 'two'
+                }" 
+                data-flip-key="shadow-two"
+            >
+            </div>
         </div>
-        <InputRange v-model="appState.checkInterval" min="1" max="60" step="1" />
-
-        <!-- STALKING TIME -->
-        <div class="text-md text-gray-900 mt-8 mb-2">
-            Select the amount of seconds between photos when the subject is seen
-        </div>
-        <div class="font-bold text-2xl mx-auto w-16 h-16 
-            border-2 border-gray-400 rounded-full
-            flex items-center justify-center"
+        <div class="option w-full h-full relative"
+            @click="selectOption('three')"
         >
-            {{ appState.stalkingInterval }}
+            <div class="option bg-green-300 flex items-center justify-center rounded-md w-full h-full relative"
+                data-flip-key="three"
+            >
+                <transition name="fade" mode="out-in">
+                    <div class="w-1/2" v-if="showTargetContent">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                    </div>
+                </transition>
+            </div>
+            <div class="shadow-option absolute inset-0" 
+                :class="{
+                    'bg-gray-200': selectedOption === 'three' && selectedFlipKey === 'three'
+                }"
+                data-flip-key="shadow-three"
+            >
+            </div>
         </div>
-        <InputRange v-model="appState.stalkingInterval" min="0.5" max="10" step="0.5" />
 
-        <!-- ALERT -->
-        <div class="text-md text-gray-900 mt-8 mb-2">
-            Do you want to emit a sound when the target is detected?
-        </div>
-        <InputText v-model="appState.message" placeholder="Message">
-            <template #icon>
-                <svg @click="playSound()" class="inline-block w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </template>
-        </InputText>
-
-        <!-- START -->
-        <button class="mx-auto mt-8 mb-4 w-20 h-20 flex items-center justify-center
-            font-bold text-2xl bg-gray-500 rounded-full"
-            @click="startAutoPic"
+        <div class="target-container rounded-2xl p-4 h-full relative"
+            :class="{
+                'bg-blue-300': selectedOption === 'one',
+                'bg-yellow-300': selectedOption === 'two',
+                'bg-green-300': selectedOption === 'three',
+                'opacity-0': selectedOption !== selectedFlipKey
+            }"
+            :data-flip-key="selectedFlipKey"
         >
-            Start
-        </button>
+            <transition name="fade">
+                <div v-if="showTargetContent">
+                    <div key="one" v-if="selectedOption === 'one'">
+                        Selected one
+                    </div>
+                    <div key="two" v-if="selectedOption === 'two'">
+                        Selected two
+                    </div>
+                    <div key="three" v-if="selectedOption === 'three'">
+                        Selected three
+                    </div>
+                </div>
+            </transition>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { ref, computed } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import InputRange from './InputRange.vue'
-import InputText from './InputText.vue'
-import { appState, playSound } from '/@/shared/' 
-import { cocoSsdObjectList } from './cocoSsdObjectList'
-// import { languageList } from './languageList'
+
+const ANIMATION_DURATION = 225
 
 export default {
     name: "Home",
 
     components: {
-        InputRange,
-        InputText
     },
 
     setup() {
         const router = useRouter()
+        let Flip;
 
-        const startAutoPic = () => {
-            router.push('/record')
-        }
+        // const startAutoPic = () => {
+        //     router.push('/record')
+        // }
 
-        // const width = computed(() => ())
+        onMounted(() => {
+            Flip = new Flipping({
+                onRead: (elements: HTMLElement) => console.log("Flip read", elements),
+                duration: ANIMATION_DURATION,
+                easing: 'ease-in-out'
+            })
+        })
 
-        const isSelectingTarget = ref(false)
-        const onTargetClick = target => {
-            appState.target = target
-            isSelectingTarget.value = false
+        const showTargetContent = ref<boolean>(true)
+        const selectedFlipKey = ref<string>("one")
+        const selectedOption = ref<string>("one")
+        const selectOption = async(opt: string) => {
+            if (selectedOption.value === opt)
+                return
+
+            showTargetContent.value = false
+
+            setTimeout(async() => {
+                Flip.read()
+                selectedFlipKey.value = `shadow-${opt}`
+                await nextTick()
+                Flip.flip()
+
+                selectedFlipKey.value = opt
+
+                setTimeout(() => {
+                    requestAnimationFrame(async () => {
+                        Flip.read()
+                        selectedOption.value = opt
+                        await nextTick()
+                        Flip.flip()
+
+                        setTimeout(() => showTargetContent.value = true, ANIMATION_DURATION)
+                    })
+                }, ANIMATION_DURATION)
+            }, 200)
         }
 
         return {
-            appState,
-            playSound,
-            startAutoPic,
-            cocoSsdObjectList,
-            // languageList,
-            isSelectingTarget,
-            onTargetClick
+            showTargetContent,
+            selectedFlipKey,
+            selectedOption,
+            selectOption,
         }
     }
 }
@@ -133,22 +201,17 @@ export default {
 
 <style lang="less">
 
-.target {
-    transition: all .3s ease;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
-    padding: 1rem;
-    border-radius: 100%;
+.grid-container {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-template-rows: 15% auto;
+    gap: 1em 5%;
 }
-.target.opened {
-    width: 300px;
-    height: 600px;
-    border-radius: 1em;
+.option {
+    transition: opacity .2s ease;
 }
-.target-choices {
-    height: calc(100% - 75px);
+.target-container {
+    grid-column: 1 / 4;
 }
-
 
 </style>
